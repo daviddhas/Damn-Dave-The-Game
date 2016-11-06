@@ -15,14 +15,14 @@ int main()
     sf::Texture tex;
     tex.loadFromFile("images/hero.png");
     sf::IntRect rectSourceSprite(0,00,51,72);
-    sf::IntRect rectSourceSprite_punch(330,100,383,152);
-    sf::Sprite sprite_hero_punch(tex, rectSourceSprite_punch);
+    //sf::IntRect rectSourceSprite_punch(330,100,383,152);
+    //sf::Sprite sprite_hero_punch(tex, rectSourceSprite_punch);
     sf::Sprite sprite_hero(tex, rectSourceSprite);
     sf::Clock clock;
     sf::Texture tex_tile;
     //sprite.setPosition(800,600);
     sprite_hero.setPosition(336,380);
-    sprite_hero_punch.setPosition(500,500);
+//    sprite_hero_punch.setPosition(500,500);
 	// Start the game loop
     while (app.isOpen())
     {
@@ -111,7 +111,7 @@ int main()
 
         //Draw our hero
         app.draw(sprite_hero);
-        app.draw(sprite_hero_punch);
+     //   app.draw(sprite_hero_punch);
 
         //Draw the text
         app.draw(text);
