@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1478372368 source:/home/david/Desktop/Columbia/summer/Game/Game/main.cpp
+	<iostream>
+	<SFML/Graphics.hpp>
+	<SFML/Audio.hpp>
+
