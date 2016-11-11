@@ -2,27 +2,31 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 using namespace std;
+
 int main()
 {
     // Create the main window
     sf::RenderWindow app(sf::VideoMode(1366, 683), "David Dhas's Game");
+    int counterwalking = 0;
     // Load a sprite to display
     sf::Texture texture;
     if (!texture.loadFromFile("images/background.jpg"))
         return EXIT_FAILURE;
-
     sf::Sprite sprite(texture);
-    sf::Texture tex;
-    tex.loadFromFile("images/hero.png");
-    sf::IntRect rectSourceSprite(0,00,51,72);
-    //sf::IntRect rectSourceSprite_punch(330,100,383,152);
-    //sf::Sprite sprite_hero_punch(tex, rectSourceSprite_punch);
-    sf::Sprite sprite_hero(tex, rectSourceSprite);
+
+
+    sf::Texture texture_hero;
+    if(!texture_hero.loadFromFile("images/hero.png"))
+        return EXIT_FAILURE;
+    sf::Sprite sprite_hero(texture_hero);
+    sprite_hero.setPosition(81,558);
+    sprite_hero.setTextureRect(sf::IntRect(0,0,51,72));
+    //sf::IntRect rectSourceSprite(0,0,51,72);
+    //sf::Sprite sprite_hero(tex, rectSourceSprite);
+    int hero_movement_speed =10;
     sf::Clock clock;
     sf::Texture tex_tile;
-    //sprite.setPosition(800,600);
-    sprite_hero.setPosition(336,380);
-//    sprite_hero_punch.setPosition(500,500);
+    int flag =1;
 	// Start the game loop
     while (app.isOpen())
     {
@@ -51,31 +55,46 @@ int main()
                     {
                         case sf::Keyboard::Down:
                             //cout<<"Down"<<endl;
-                             sprite_hero.setPosition(336,480);
+                             //sprite_hero.setPosition(336,480);
                             break;
                         case sf::Keyboard::Up:
                             cout<<"UP"<<endl;
-                            sprite_hero.setPosition(336,380);
+                            //sprite_hero.setPosition(336,380);
                             break;
                         case sf::Keyboard::Left:
-                            cout<<"Left"<<endl;
-                            break;
-                        case sf::Keyboard::Right:
-                            cout<<"Right"<<endl;
-                            break;
-                        case sf::Keyboard::Return:
-                            cout<<"Enter pressed"<<endl;
-                            if (sprite_hero.getPosition().y == 480)
-                                app.close();
+                            {
+                                if (flag ==1)
+                                    sprite_hero.setScale(-1.0f,1.0f);
 
-                            if (sprite_hero.getPosition().y == 380)
-                                app.close();
+                                cout<<"Left"<<endl;
+                                sprite_hero.move(-hero_movement_speed,0);
+                                sprite_hero.setTextureRect(sf::IntRect(counterwalking*55,0,51,72));
+                                flag =0;
+                                //Flipping the sprite
+                                //sprite_hero.setTextureRect(sf::IntRect(counterwalking*55, 0, -55, 72));
+                                break;
+                            }
+                        case sf::Keyboard::Right:
+                            {
+                                if (flag ==0)
+                                    sprite_hero.setScale(-1.0f,1.0f);
+                                cout<<"Right"<<endl;
+                                sprite_hero.move(hero_movement_speed,0);
+                                sprite_hero.setTextureRect(sf::IntRect(counterwalking*55,0,51,72));
+                                flag=1;
+                                break;
+                            }
+                        case sf::Keyboard::Return:
+                            cout<<"Enter is pressed"<<endl;
                             break;
                         default:
                             cout<<"Invalid Operation"<<endl;
 
                     }
             }
+            counterwalking++;
+            if (counterwalking == 3)
+                counterwalking =0;
         }
 
         //cout<<sf::Mouse::getPosition().x<<" x "<<sf::Mouse::getPosition().y<<endl;
@@ -94,29 +113,17 @@ int main()
         text.setCharacterSize(50);
         text.setPosition(200,200);
 
-        sf::Text text1("New Game",font,20);
-        text1.setColor(sf::Color::Red);
-        text1.setCharacterSize(50);
-        text1.setPosition(400,400);
-
-
-        sf::Text text2("Quit",font,20);
-        text2.setColor(sf::Color::Red);
-        text2.setCharacterSize(50);
-        text2.setPosition(400,500);
-
-
         // Draw the sprite
         app.draw(sprite);
 
         //Draw our hero
         app.draw(sprite_hero);
+        //sprite_hero.setPosition(81,558);
+
      //   app.draw(sprite_hero_punch);
 
         //Draw the text
         app.draw(text);
-        app.draw(text1);
-        app.draw(text2);
 
         // Update the window
         app.display();
