@@ -23,6 +23,15 @@ int main()
     sprite_hero.setTextureRect(sf::IntRect(0,0,51,72));
     //sf::IntRect rectSourceSprite(0,0,51,72);
     //sf::Sprite sprite_hero(tex, rectSourceSprite);
+
+    sf::Texture texture_trump;
+    if(!texture_trump.loadFromFile("images/trump.png"))
+        return EXIT_FAILURE;
+    sf::Sprite sprite_trump(texture_trump);
+    sprite_trump.setPosition(381,490);
+    sprite_trump.setTextureRect(sf::IntRect(410,0,124,133));
+
+
     int hero_movement_speed =10;
     sf::Clock clock;
     sf::Texture tex_tile;
@@ -59,7 +68,10 @@ int main()
                             break;
                         case sf::Keyboard::Up:
                             cout<<"UP"<<endl;
-                            //sprite_hero.setPosition(336,380);
+                            for(int i =1;i<=10;i++)
+                                sprite_hero.move(hero_movement_speed,-i);
+                            for(int i =1;i<=10;i++)
+                                sprite_hero.move(hero_movement_speed,i);
                             break;
                         case sf::Keyboard::Left:
                             {
@@ -102,28 +114,40 @@ int main()
         app.clear();
 
         sf::Font font;
-        if (!font.loadFromFile("fonts/typesimp.TTF"))
+        if (!font.loadFromFile("fonts/8bit.TTF"))
         {
             return EXIT_FAILURE;
         }
 
         //Font positioning
-        sf::Text text("David's Fantasy World!",font,25);
+        sf::Text text("INGLORIOUS BASTARDS",font,25);
         text.setColor(sf::Color::Red);
         text.setCharacterSize(50);
         text.setPosition(200,200);
+
+
+        sf::Text text1("VS ",font,25);
+        text1.setColor(sf::Color::Red);
+        text1.setCharacterSize(50);
+        text1.setPosition(600,500);
+
+
 
         // Draw the sprite
         app.draw(sprite);
 
         //Draw our hero
         app.draw(sprite_hero);
+
+        //Draw Trump
+        app.draw(sprite_trump);
         //sprite_hero.setPosition(81,558);
 
      //   app.draw(sprite_hero_punch);
 
         //Draw the text
         app.draw(text);
+        app.draw(text1);
 
         // Update the window
         app.display();
