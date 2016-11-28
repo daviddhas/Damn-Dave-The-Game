@@ -1,0 +1,5 @@
+#ignore files
+bin/
+obj/
+obj/Debug/
+obj/Debug/main.o
