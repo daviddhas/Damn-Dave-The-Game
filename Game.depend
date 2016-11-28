@@ -9,10 +9,10 @@
 	<SFML/Graphics.hpp>
 	<SFML/Audio.hpp>
 
-1480311131 source:c:\davidfantasy\damn-dave-the-game\main.cpp
+1480366195 source:c:\davidfantasy\damn-dave-the-game\main.cpp
 	<iostream>
-	<SFML/Graphics.hpp>
-	<SFML/Audio.hpp>
+	"game.h"
+	"mainHeader.h"
 
 1480047395 c:\davidfantasy\damn-dave-the-game\sfml-2.4.1\include\sfml\graphics.hpp
 	<SFML/Window.hpp>
@@ -995,4 +995,15 @@
 1480047396 c:\sfml-2.4.1\include\sfml\audio\soundfilewriter.hpp
 	<SFML/Audio/Export.hpp>
 	<string>
+
+1480366063 source:c:\davidfantasy\damn-dave-the-game\game.cpp
+	"game.h"
+
+1480364634 c:\davidfantasy\damn-dave-the-game\mainheader.h
+	<SFML/Graphics.hpp>
+	<SFML/Audio.hpp>
+
+1480367603 c:\davidfantasy\damn-dave-the-game\game.h
+	<SFML/Graphics.hpp>
+	<SFML/Audio.hpp>
 
