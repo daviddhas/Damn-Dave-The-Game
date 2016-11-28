@@ -15,16 +15,21 @@ int main()
         return EXIT_FAILURE;
     sf::Sprite sprite(texture);
 
+
     sf::Texture texture_hero;
     if(!texture_hero.loadFromFile("images/hero.png"))
         return EXIT_FAILURE;
 
+mainInterface:
     sf::Sprite sprite_hero(texture_hero);
     sprite_hero.setPosition(450,280);
     sprite_hero.setTextureRect(sf::IntRect(0,0,51,72));
     //sprite_hero.setPosition(81,558);
     //sf::IntRect rectSourceSprite(0,0,51,72);
     //sf::Sprite sprite_hero(tex, rectSourceSprite);
+
+
+
 
 
     // Load a music to play
@@ -67,6 +72,7 @@ int main()
 	// Start the game loop
     while (app.isOpen())
     {
+
         // Process events
         sf::Event event;
         while (app.pollEvent(event))
@@ -91,29 +97,18 @@ int main()
                     switch(event.key.code)
                     {
                         case sf::Keyboard::Down:
-                            //cout<<"Down"<<endl;
-                             //sprite_hero.setPosition(336,480);
-
-                             sprite_hero.move(0, 80);
-                             if (sprite_hero.getPosition().y == 520)
+                            sprite_hero.move(0, 80);
+                            if (sprite_hero.getPosition().y == 520)
                                 sprite_hero.setPosition(450, 280);
                             break;
                         case sf::Keyboard::Up:
-                            /*cout<<"UP"<<endl;
-                            for(int i =1;i<=10;i++)
-                                sprite_hero.move(hero_movement_speed,-i);
-                            for(int i =1;i<=10;i++)
-                                sprite_hero.move(hero_movement_speed,i);
-                            break;*/
-
                             sprite_hero.move(0, -80);
                             if (sprite_hero.getPosition().y == 200)
                                 sprite_hero.setPosition(450, 440);
                             break;
-
+                        case sf::Keyboard::Escape:
+                            return EXIT_SUCCESS;
                         case sf::Keyboard::Return:
-                            cout<<"Enter is pressed"<<endl;
-
                             if (sprite_hero.getPosition().y == 280)
                             {
                                 //game starts
@@ -136,6 +131,11 @@ int main()
                                 go.setColor(sf::Color::Red);
                                 go.setPosition(500,200);
 
+                                int jumpSpeed = 2;
+                                int height = 558;
+                                bool up = false;
+                                bool upperRight = false;
+                                bool upperLeft = false;
 
                                 // Load a music to play
                                 music.stop();
@@ -146,82 +146,164 @@ int main()
                                 fightingMusic.play();
 
 
-
                                 while (app.isOpen())
                                 {
-                                                // Process events
+                                    if (up)
+                                    {
+                                        sprite_hero.move(0, -jumpSpeed);
+                                        if (sprite_hero.getPosition().y <= 358)
+                                            up = false;
+                                    }
+                                    else if (!up && sprite_hero.getPosition().y < 558)
+                                    {
+                                        sprite_hero.move(0, jumpSpeed);
+                                    }
+
+
+                                    // Process events
                                     sf::Event event2;
                                     while (app.pollEvent(event2))
                                     {
-                                        switch(event2.type)
+                                        if (event2.type == sf::Event::Closed)
+                                            app.close();
+                                        else if (event2.type == sf::Event::Resized)
+                                            cout<<event.size.width<<':'<<event.size.height<<endl;
+                                        //else if (event2.type == sf::Event::LostFocus)
+                                            //app.pause();
+                                        //else if (event2.type == sf::Event::GainedFocus)
+                                            //app.resume();
+                                        //else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+                                        /*else if (event2.type == sf::Event::KeyPressed)
                                         {
-                                            case sf::Event::Closed:
-                                                app.close();
 
-                                            case sf::Event::Resized:
-                                                    cout<<event.size.width<<':'<<event.size.height<<endl;
+                                            if(event2.key.code == sf::Keyboard::Down)
+                                            {
 
-                                            case sf::Event::LostFocus:
-                                                    cout<<"Lost Focus"<<endl;
-
-                                            case sf::Event::GainedFocus:
-                                                    cout<<"Gained Focus"<<endl;
-                                            // Close window : exit
-                                            case sf::Event::KeyPressed:
-                                                 cout<<"Key has been pressed"<<endl;
-
-                                                switch(event2.key.code)
+                                            }
+                                            else if(event2.key.code == sf::Keyboard::Up)
+                                            {
+                                                if (sprite_hero.getPosition().y == 558)
+                                                    up = true;
+                                            }
+                                            else if(event2.key.code == sf::Keyboard::Left)
+                                            {
+                                                if (flag ==1)
                                                 {
-                                                    case sf::Keyboard::Down:
-                                                        //cout<<"Down"<<endl;
-                                                         //sprite_hero.setPosition(336,480);
 
-                                                         sprite_hero.move(0, 80);
-                                                         if (sprite_hero.getPosition().y == 520)
-                                                            sprite_hero.setPosition(450, 280);
-                                                        break;
-                                                    case sf::Keyboard::Up:
-                                                        /*cout<<"UP"<<endl;
-                                                        for(int i =1;i<=10;i++)
-                                                            sprite_hero.move(hero_movement_speed,-i);
-                                                        for(int i =1;i<=10;i++)
-                                                            sprite_hero.move(hero_movement_speed,i);
-                                                        break;*/
-
-                                                        sprite_hero.move(0, -80);
-                                                        if (sprite_hero.getPosition().y == 200)
-                                                            sprite_hero.setPosition(450, 440);
-                                                        break;
-
-
-                                                    case sf::Keyboard::Left:
-                                                        {
-                                                            //if (flag ==1)
-                                                              //  sprite_hero.setScale(-1.0f,1.0f);
-
-                                                            //cout<<"Left"<<endl;
-
-                                                            sprite_hero.setTextureRect(sf::IntRect(51,0,-51,72));
-                                                            sprite_hero.move(-hero_movement_speed,0);
-                                                            //flag =0;
-                                                            //Flipping the sprite
-                                                            //sprite_hero.setTextureRect(sf::IntRect(counterwalking*55, 0, -55, 72));
-                                                            break;
-                                                        }
-                                                    case sf::Keyboard::Right:
-                                                        {
-                                                            //if (flag ==0)
-                                                            //    sprite_hero.setScale(-1.0f,1.0f);
-                                                            //cout<<"Right"<<endl;
-
-                                                            sprite_hero.setTextureRect(sf::IntRect(0,0,51,72));
-                                                            sprite_hero.move(hero_movement_speed,0);
-                                                            //flag=1;
-                                                            break;
-                                                        }
+                                                  //  sprite_hero.setScale(-1.0f,1.0f);
+                                                    sprite_hero.setTextureRect(sf::IntRect(55,0,-55,72));
+                                                    sprite_hero.move(-hero_movement_speed,0);
+                                                    flag =0;
                                                 }
+                                                else
+                                                {
+                                                    sprite_hero.setTextureRect(sf::IntRect(165,0,-55,72));
+                                                    sprite_hero.move(-hero_movement_speed,0);
+                                                    flag =1;
+                                                }
+                                            }
+                                            else if(event2.key.code == sf::Keyboard::Right)
+                                            {
+                                                if (flag ==0)
+                                                {
+                                                    //    sprite_hero.setScale(-1.0f,1.0f);
+                                                    sprite_hero.setTextureRect(sf::IntRect(0,0,55,72));
+                                                    sprite_hero.move(hero_movement_speed,0);
+                                                    flag=1;
+                                                }
+                                                else
+                                                {
+                                                    sprite_hero.setTextureRect(sf::IntRect(110,0,55,72));
+                                                    sprite_hero.move(hero_movement_speed,0);
+                                                    flag=0;
+                                            if(event2.key.code == sf::Keyboard::Down)
+                                            {
+
+                                            }
+                                            else if(event2.key.code == sf::Keyboard::Up)
+                                            {
+                                                if (sprite_hero.getPosition().y == 558)
+                                                    up = true;
+                                            }
+                                            else if(event2.key.code == sf::Keyboard::Left)
+                                            {
+                                                if (flag ==1)
+                                                {
+
+                                                  //  sprite_hero.setScale(-1.0f,1.0f);
+                                                    sprite_hero.setTextureRect(sf::IntRect(55,0,-55,72));
+                                                    sprite_hero.move(-hero_movement_speed,0);
+                                                    flag =0;
+                                                }
+                                                else
+                                                {
+                                                    sprite_hero.setTextureRect(sf::IntRect(165,0,-55,72));
+                                                    sprite_hero.move(-hero_movement_speed,0);
+                                                    flag =1;
+                                                }
+                                            }
+                                            else if(event2.key.code == sf::Keyboard::Right)
+                                            {
+                                                if (flag ==0)
+                                                {
+                                                    //    sprite_hero.setScale(-1.0f,1.0f);
+                                                    sprite_hero.setTextureRect(sf::IntRect(0,0,55,72));
+                                                    sprite_hero.move(hero_movement_speed,0);
+                                                    flag=1;
+                                                }
+                                                }
+                                            }
+                                            else if(event2.key.code == sf::Keyboard::Escape)
+                                            {
+                                                fightingMusic.stop();
+                                                goto mainInterface;
+                                            }
+                                        }
+                                        */
+                                    }
+
+                                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+                                    {
+
+                                    }
+                                    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+                                    {
+                                        if (sprite_hero.getPosition().y == 558)
+                                            up = true;
+                                    }
+                                    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+                                    {
+                                        if (flag ==1)
+                                        {
+                                          //  sprite_hero.setScale(-1.0f,1.0f);
+                                            sprite_hero.setTextureRect(sf::IntRect(55,0,-55,72));
+                                            sprite_hero.move(-1,0);
+                                            flag =0;
+                                        }
+                                        else
+                                        {
+                                            sprite_hero.setTextureRect(sf::IntRect(165,0,-55,72));
+                                            sprite_hero.move(-1,0);
+                                            flag =1;
                                         }
                                     }
+                                    else if(event2.key.code == sf::Keyboard::Right)
+                                    {
+                                        if (flag ==0)
+                                        {
+                                            //    sprite_hero.setScale(-1.0f,1.0f);
+                                            sprite_hero.setTextureRect(sf::IntRect(0,0,55,72));
+                                            sprite_hero.move(1,0);
+                                            flag=1;
+                                        }
+                                        else
+                                        {
+                                            sprite_hero.setTextureRect(sf::IntRect(110,0,55,72));
+                                            sprite_hero.move(1,0);
+                                            flag=0;
+                                        }
+                                    }
+
 
 
                                     // Clear screen
@@ -256,10 +338,7 @@ int main()
                                     // Update the window
                                     app.display();
 
-                                    //if (sf::Event::KeyPressed &&
-                                      //  event.key.code == sf::Keyboard::Esc )
-                                            //back to main interface
-                                }
+                            }
 
                             }
                             else if (sprite_hero.getPosition().y == 360)
