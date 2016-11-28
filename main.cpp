@@ -287,7 +287,7 @@ mainInterface:
                                             flag =1;
                                         }
                                     }
-                                    else if(event2.key.code == sf::Keyboard::Right)
+                                    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
                                     {
                                         if (flag ==0)
                                         {
@@ -303,6 +303,9 @@ mainInterface:
                                             flag=0;
                                         }
                                     }
+                                    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+                                        goto mainInterface;
+
 
 
 
