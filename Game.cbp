@@ -38,16 +38,28 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add directory="../../SFML-2.4.1/include" />
 		</Compiler>
+		<Linker>
+			<Add library="sfml-graphics-d" />
+			<Add library="sfml-window-d" />
+			<Add library="sfml-audio-d" />
+			<Add library="sfml-system-d" />
+			<Add directory="../../SFML-2.4.1/lib" />
+		</Linker>
 		<Unit filename="cb.bmp" />
 		<Unit filename="fonts/typesimp.TTF" />
+		<Unit filename="game.cpp" />
+		<Unit filename="game.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="mainHeader.h" />
 		<Unit filename="sound/background.wav" />
 		<Unit filename="sound/background1.mp3" />
 		<Unit filename="sound/background1.wav" />
 		<Extensions>
 			<code_completion />
 			<debugger />
+			<envvars />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

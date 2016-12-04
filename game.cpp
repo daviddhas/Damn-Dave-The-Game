@@ -2,17 +2,12 @@
 
 //using namespace Fantasy;
 
-int fightStart(sf::RenderWindow &app,
-    sf::Texture &texture,
-    sf::Sprite &sprite,
-    sf::Texture &texture_hero,
-    sf::Sprite &sprite_hero,
-    sf::Music &music,
-    sf::Font &font,
-    int &flag)
+int fightStart(sf::RenderWindow &app, sf::Texture &mainBackground,
+               sf::Sprite &sprite, sf::Texture &texture_hero,
+               sf::Sprite &sprite_hero, sf::Music &music,
+               sf::Font &font, int &flag)
 {
 //game starts
-
     sprite_hero.setPosition(381,558);
 
     sf::Texture texture_trump;
@@ -64,7 +59,7 @@ int fightStart(sf::RenderWindow &app,
             if (event2.type == sf::Event::Closed)
                 app.close();
             //else if (event2.type == sf::Event::Resized)
-              //  cout<<event.size.width<<':'<<event.size.height<<endl;
+            //  cout<<event.size.width<<':'<<event.size.height<<endl;
             //else if (event2.type == sf::Event::LostFocus)
             //app.pause();
             //else if (event2.type == sf::Event::GainedFocus)
@@ -113,7 +108,10 @@ int fightStart(sf::RenderWindow &app,
             }
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+        {
+            fightingMusic.stop();
             return 0;
+        }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
         {
             sprite_hero.setTextureRect(sf::IntRect(270,78,54,78));
