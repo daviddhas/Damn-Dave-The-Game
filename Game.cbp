@@ -38,14 +38,15 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add directory="../../SFML-2.4.1/include" />
+			<Add option="-std=c++11" />
+			<Add directory="C:/SFML-2.4.1/include" />
 		</Compiler>
 		<Linker>
 			<Add library="sfml-graphics-d" />
 			<Add library="sfml-window-d" />
 			<Add library="sfml-audio-d" />
 			<Add library="sfml-system-d" />
-			<Add directory="../../SFML-2.4.1/lib" />
+			<Add directory="C:/SFML-2.4.1/lib" />
 		</Linker>
 		<Unit filename="cb.bmp" />
 		<Unit filename="fonts/typesimp.TTF" />
