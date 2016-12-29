@@ -8,14 +8,17 @@ int fightStart(sf::RenderWindow &app, sf::Texture &mainBackground,
                sf::Font &font, int &flag)
 {
 //game starts
-    sprite_hero.setPosition(381,558);
+    sprite_hero.setPosition(381,520);
+    sprite_hero.scale(sf::Vector2f(1.5f, 1.5f));
 
     sf::Texture texture_trump;
     if(!texture_trump.loadFromFile("images/trump.png"))
         return EXIT_FAILURE;
     sf::Sprite sprite_trump(texture_trump);
-    sprite_trump.setPosition(781,490);
+    sprite_trump.setPosition(781,425);
     sprite_trump.setTextureRect(sf::IntRect(410,0,-124,133));
+    sprite_trump.scale(sf::Vector2f(1.5f, 1.5f));
+
 
     sf::Text ready("READY",font,80);
     ready.setColor(sf::Color::Red);
@@ -28,6 +31,7 @@ int fightStart(sf::RenderWindow &app, sf::Texture &mainBackground,
 
     int jumpSpeed = 2;
     bool up = false;
+    int quickPunch = 0;
 
 // Load a music to play
     music.stop();
@@ -43,12 +47,23 @@ int fightStart(sf::RenderWindow &app, sf::Texture &mainBackground,
         if (up)
         {
             sprite_hero.move(0, -jumpSpeed);
-            if (sprite_hero.getPosition().y <= 358)
+            if (sprite_hero.getPosition().y <= 200)
                 up = false;
         }
-        else if (!up && sprite_hero.getPosition().y < 558)
+        else if (!up && sprite_hero.getPosition().y < 520)
         {
             sprite_hero.move(0, jumpSpeed);
+        }
+
+        if (quickPunch == 1)
+        {
+            sprite_hero.setTextureRect(sf::IntRect(320,85,54,72));
+            quickPunch = 2;
+        }
+        else if (quickPunch == 2)
+        {
+            sprite_hero.setTextureRect(sf::IntRect(0,0,54,72));
+            quickPunch = 0;
         }
 
 
@@ -72,7 +87,7 @@ int fightStart(sf::RenderWindow &app, sf::Texture &mainBackground,
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
         {
-            if (sprite_hero.getPosition().y == 558)
+            if (sprite_hero.getPosition().y == 520)
                 up = true;
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
@@ -114,7 +129,8 @@ int fightStart(sf::RenderWindow &app, sf::Texture &mainBackground,
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
         {
-            sprite_hero.setTextureRect(sf::IntRect(270,78,54,78));
+            sprite_hero.setTextureRect(sf::IntRect(265,85,54,72));
+            quickPunch = 1;
         }
 
 
