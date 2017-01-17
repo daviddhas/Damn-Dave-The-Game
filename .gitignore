@@ -1,7 +1,6 @@
 #ignore files
 bin/
 obj/
-obj/Debug/
-obj/Debug/main.o
 *.o
-*.o
+*.layout
+*.depend

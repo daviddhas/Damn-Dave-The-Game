@@ -82,15 +82,15 @@ int main()
 
 
         if (text.getPosition().x < 180)
-            text.move(1, 0);
+            text.move(0.3, 0);
         if (newGame.getPosition().x < 550)
-            newGame.move(1, 0);
+            newGame.move(0.3, 0);
         if (location.getPosition().x < 550)
-            location.move(1, 0);
+            location.move(0.3, 0);
         if (quit.getPosition().x < 550)
-            quit.move(1, 0);
+            quit.move(0.3, 0);
         if (sprite_hero.getPosition().x < 450)
-            sprite_hero.move(1, 0);
+            sprite_hero.move(0.3, 0);
 
 
         // Process events
@@ -101,16 +101,17 @@ int main()
             {
             case sf::Event::Closed:
                 app.close();
-
+                break;
             case sf::Event::Resized:
                 cout<<event.size.width<<':'<<event.size.height<<endl;
-
+                break;
             case sf::Event::LostFocus:
                 cout<<"Lost Focus"<<endl;
-
+                break;
             case sf::Event::GainedFocus:
                 cout<<"Gained Focus"<<endl;
-            // Close window : exit
+                // Close window : exit
+                break;
             case sf::Event::KeyPressed:
                 cout<<"Key has been pressed"<<endl;
 
@@ -119,12 +120,12 @@ int main()
                 case sf::Keyboard::Down:
                     sprite_hero.move(0, 80);
                     if (sprite_hero.getPosition().y == 520)
-                        sprite_hero.setPosition(450, 280);
+                        sprite_hero.setPosition(sprite_hero.getPosition().x, 280);
                     break;
                 case sf::Keyboard::Up:
                     sprite_hero.move(0, -80);
                     if (sprite_hero.getPosition().y == 200)
-                        sprite_hero.setPosition(450, 440);
+                        sprite_hero.setPosition(sprite_hero.getPosition().x, 440);
                     break;
                 case sf::Keyboard::Escape:
                     return EXIT_SUCCESS;
@@ -132,11 +133,12 @@ int main()
                     if (sprite_hero.getPosition().y == 280)
                     {
                         fightStart(app,mainBackground,sprite,texture_hero,
-                                   sprite_hero,music,font,flag);
+                                   sprite_hero,music,font,walkingStep);
 
                         sprite_hero.setTexture(texture_hero);
                         sprite_hero.setPosition(-750,280);
                         sprite_hero.setTextureRect(sf::IntRect(0,0,51,72));
+                        sprite_hero.setScale(1.0f, 1.0f);
 
                         text.setPosition(-1020,100);
                         newGame.setPosition(-650,300);

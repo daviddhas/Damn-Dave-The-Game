@@ -14,6 +14,6 @@ sf::Texture texture_hero;
 sf::Sprite sprite_hero;
 sf::Music music;
 sf::Font font;
-int flag =1;
+int walkingStep =1;
 }
 #endif // MAINHEADER_H_INCLUDED

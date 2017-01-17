@@ -5,7 +5,7 @@
 int fightStart(sf::RenderWindow &app, sf::Texture &mainBackground,
                sf::Sprite &sprite, sf::Texture &texture_hero,
                sf::Sprite &sprite_hero, sf::Music &music,
-               sf::Font &font, int &flag)
+               sf::Font &font, int &walkingStep)
 {
 //game starts
     sprite_hero.setPosition(381,520);
@@ -29,9 +29,11 @@ int fightStart(sf::RenderWindow &app, sf::Texture &mainBackground,
     go.setColor(sf::Color::Red);
     go.setPosition(500,200);
 
-    int jumpSpeed = 2;
+    int jumpSpeed = 1;
     bool up = false;
-    int quickPunch = 0;
+    int quickPunchLeft = 0;
+    int quickPunchRight = 0;
+    bool facingRight = true;
 
 // Load a music to play
     music.stop();
@@ -47,7 +49,7 @@ int fightStart(sf::RenderWindow &app, sf::Texture &mainBackground,
         if (up)
         {
             sprite_hero.move(0, -jumpSpeed);
-            if (sprite_hero.getPosition().y <= 200)
+            if (sprite_hero.getPosition().y <= 150)
                 up = false;
         }
         else if (!up && sprite_hero.getPosition().y < 520)
@@ -55,17 +57,29 @@ int fightStart(sf::RenderWindow &app, sf::Texture &mainBackground,
             sprite_hero.move(0, jumpSpeed);
         }
 
-        if (quickPunch == 1)
+        switch (quickPunchLeft)
         {
+        case 1:
             sprite_hero.setTextureRect(sf::IntRect(320,85,54,72));
-            quickPunch = 2;
-        }
-        else if (quickPunch == 2)
-        {
+            quickPunchLeft = 2;
+            break;
+        case 2:
             sprite_hero.setTextureRect(sf::IntRect(0,0,54,72));
-            quickPunch = 0;
+            quickPunchLeft = 0;
+            break;
         }
 
+        switch (quickPunchRight)
+        {
+        case 1:
+            sprite_hero.setTextureRect(sf::IntRect(374,85,-54,72));
+            quickPunchRight = 2;
+            break;
+        case 2:
+            sprite_hero.setTextureRect(sf::IntRect(54,0,-54,72));
+            quickPunchRight = 0;
+            break;
+        }
 
         // Process events
         sf::Event event2;
@@ -92,34 +106,56 @@ int fightStart(sf::RenderWindow &app, sf::Texture &mainBackground,
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
         {
-            if (flag ==1)
+            facingRight = false;
+            switch (walkingStep)
             {
-                //  sprite_hero.setScale(-1.0f,1.0f);
+            case 0:
                 sprite_hero.setTextureRect(sf::IntRect(55,0,-55,72));
-                sprite_hero.move(-1,0);
-                flag =0;
-            }
-            else
-            {
+                sprite_hero.move(-0.5,0);
+                walkingStep=1;
+                break;
+            case 1:
+                sprite_hero.setTextureRect(sf::IntRect(110,0,-55,72));
+                sprite_hero.move(-0.5,0);
+                walkingStep=2;
+                break;
+            case 2:
                 sprite_hero.setTextureRect(sf::IntRect(165,0,-55,72));
-                sprite_hero.move(-1,0);
-                flag =1;
+                sprite_hero.move(-0.5,0);
+                walkingStep=3;
+                break;
+            case 3:
+                sprite_hero.setTextureRect(sf::IntRect(220,0,-55,72));
+                sprite_hero.move(-0.5,0);
+                walkingStep=0;
+                break;
             }
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
         {
-            if (flag ==0)
+            facingRight = true;
+            switch (walkingStep)
             {
-                //    sprite_hero.setScale(-1.0f,1.0f);
+            case 0:
                 sprite_hero.setTextureRect(sf::IntRect(0,0,55,72));
-                sprite_hero.move(1,0);
-                flag=1;
-            }
-            else
-            {
+                sprite_hero.move(0.5,0);
+                walkingStep=1;
+                break;
+            case 1:
+                sprite_hero.setTextureRect(sf::IntRect(55,0,55,72));
+                sprite_hero.move(0.5,0);
+                walkingStep=2;
+                break;
+            case 2:
                 sprite_hero.setTextureRect(sf::IntRect(110,0,55,72));
-                sprite_hero.move(1,0);
-                flag=0;
+                sprite_hero.move(0.5,0);
+                walkingStep=3;
+                break;
+            case 3:
+                sprite_hero.setTextureRect(sf::IntRect(165,0,55,72));
+                sprite_hero.move(0.5,0);
+                walkingStep=0;
+                break;
             }
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
@@ -129,8 +165,16 @@ int fightStart(sf::RenderWindow &app, sf::Texture &mainBackground,
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
         {
-            sprite_hero.setTextureRect(sf::IntRect(265,85,54,72));
-            quickPunch = 1;
+            if (facingRight)
+            {
+                sprite_hero.setTextureRect(sf::IntRect(265,85,54,72));
+                quickPunchLeft = 1;
+            }
+            else
+            {
+                sprite_hero.setTextureRect(sf::IntRect(319,85,-54,72));
+                quickPunchRight = 1;
+            }
         }
 
 
@@ -143,12 +187,12 @@ int fightStart(sf::RenderWindow &app, sf::Texture &mainBackground,
         app.draw(sprite);
 
 
-        if (readyCount < 400)
+        if (readyCount < 1000)
         {
             app.draw(ready);
             readyCount++;
         }
-        else if (readyCount >= 400 && readyCount < 800)
+        else if (readyCount >= 1000 && readyCount < 2000)
         {
             app.draw(go);
             readyCount++;
